@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "comany_overview")
+@Table(name = "company_overview")
 @Data
 @Builder
 @NoArgsConstructor
@@ -28,6 +28,6 @@ public class Company {
     private String sector;
     @Column(name = "industry")
     private String industry;
-    @Column(name = "adress")
+    @Column(name = "address")
     private String adress;
 }
