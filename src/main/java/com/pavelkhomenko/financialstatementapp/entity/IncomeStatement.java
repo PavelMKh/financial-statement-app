@@ -26,13 +26,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class IncomeStatement {
     @Id
+    private String id;
+    @Column(name = "ticker")
     private String ticker;
+    @Column(name = "type")
+    private String type;
     @Column(name = "fiscaldateending")
     private LocalDate fiscalDateEnding;
     @Column(name = "reportedcurrency")
     private String reportedCurrency;
     @Column(name = "grossprofit")
     private long grossProfit;
+    @Column(name = "totalrevenue")
+    private long totalRevenue;
     @Column(name = "costofrevenue")
     private long costOfRevenue;
     @Column(name = "costofgoodsandservicessold")
