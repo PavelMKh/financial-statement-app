@@ -1,9 +1,10 @@
-package com.pavelkhomenko.financialstatementapp.util;
+package com.pavelkhomenko.financialstatementapp.mapping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pavelkhomenko.financialstatementapp.entity.IncomeStatement;
+import com.pavelkhomenko.financialstatementapp.util.HttpRequestClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -5,8 +5,8 @@ import com.pavelkhomenko.financialstatementapp.entity.Company;
 import com.pavelkhomenko.financialstatementapp.entity.IncomeStatement;
 import com.pavelkhomenko.financialstatementapp.repository.CompanyOverviewDao;
 import com.pavelkhomenko.financialstatementapp.repository.IncomeStatementDao;
-import com.pavelkhomenko.financialstatementapp.util.CompanyOverviewProcessing;
-import com.pavelkhomenko.financialstatementapp.util.IncomeStatementProcessing;
+import com.pavelkhomenko.financialstatementapp.mapping.CompanyOverviewProcessing;
+import com.pavelkhomenko.financialstatementapp.mapping.IncomeStatementProcessing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

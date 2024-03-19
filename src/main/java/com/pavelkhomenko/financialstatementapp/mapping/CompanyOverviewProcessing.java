@@ -1,10 +1,12 @@
-package com.pavelkhomenko.financialstatementapp.util;
+package com.pavelkhomenko.financialstatementapp.mapping;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pavelkhomenko.financialstatementapp.entity.Company;
 import java.net.URI;
+
+import com.pavelkhomenko.financialstatementapp.util.HttpRequestClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
