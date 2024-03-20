@@ -4,6 +4,7 @@
  */
 package com.pavelkhomenko.financialstatementapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -26,6 +27,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class IncomeStatement {
     @Id
+    @JsonIgnore
     private String id;
     @Column(name = "ticker")
     private String ticker;
