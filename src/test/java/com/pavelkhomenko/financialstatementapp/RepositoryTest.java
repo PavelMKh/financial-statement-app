@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pavelkhomenko.financialstatementapp.entity.Company;
 import com.pavelkhomenko.financialstatementapp.entity.IncomeStatement;
 import com.pavelkhomenko.financialstatementapp.repository.CompanyOverviewDao;
-import com.pavelkhomenko.financialstatementapp.repository.CompanyOverviewImpl;
+import com.pavelkhomenko.financialstatementapp.repository.CompanyOverviewDaoImpl;
 import com.pavelkhomenko.financialstatementapp.repository.IncomeStatementDao;
 import com.pavelkhomenko.financialstatementapp.repository.IncomeStatementDaoImpl;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,7 +43,7 @@ public class RepositoryTest {
                 .build();
         jdbcTemplate = new JdbcTemplate(dataSource);
         incomeStatementDao = new IncomeStatementDaoImpl(jdbcTemplate);
-        companyOverviewDao = new CompanyOverviewImpl(jdbcTemplate);
+        companyOverviewDao = new CompanyOverviewDaoImpl(jdbcTemplate);
         testCompany = objectMapper.readValue(
                 new String(Files.readAllBytes(Paths.get("src/test/resources/overview.json"))),
                 Company.class);

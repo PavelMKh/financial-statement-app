@@ -13,11 +13,11 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-public class CompanyOverviewImpl implements CompanyOverviewDao {
+public class CompanyOverviewDaoImpl implements CompanyOverviewDao {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public CompanyOverviewImpl(JdbcTemplate jdbcTemplate) {
+    public CompanyOverviewDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

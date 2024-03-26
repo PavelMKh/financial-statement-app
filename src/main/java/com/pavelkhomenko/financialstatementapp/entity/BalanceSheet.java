@@ -1,6 +1,8 @@
 package com.pavelkhomenko.financialstatementapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -117,7 +119,7 @@ public class BalanceSheet {
         @Column(name = "currentlongtermdebt")
         private Long currentLongTermDebt;
 
-        @Column(name = "longterndebtnoncurrent")
+        @Column(name = "longtermdebtnoncurrent")
         private Long longTermDebtNonCurrent;
 
         @Column(name = "shortlongtermdettotal")
@@ -143,4 +145,88 @@ public class BalanceSheet {
 
         @Column(name = "commonstocksharesoutstanding")
         private Long commonStockSharesOutstanding;
+
+        @JsonCreator
+        public BalanceSheet(String ticker,
+                            String type,
+                            @JsonProperty("fiscalDateEnding") LocalDate fiscalDateEnding,
+                            @JsonProperty("reportedCurrency") String reportedCurrency,
+                            @JsonProperty("totalAssets") Long totalAssets,
+                            @JsonProperty("totalCurrentAssets") Long totalCurrentAssets,
+                            @JsonProperty("cashAndCashEquivalentsAtCarryingValue") Long cashAndCashEquivalentsAtCarryingValue,
+                            @JsonProperty("cashAndShortTermInvestments") Long cashAndShortTermInvestments,
+                            @JsonProperty("inventory") Long inventory,
+                            @JsonProperty("currentNetReceivables") Long currentNetReceivables,
+                            @JsonProperty("totalNonCurrentAssets") Long totalNonCurrentAssets,
+                            @JsonProperty("propertyPlantEquipment") Long propertyPlantEquipment,
+                            @JsonProperty("accumulatedDepreciationAmortizationPPE") Long accumulatedDepreciationAmortizationPPE,
+                            @JsonProperty("intangibleAssets") Long intangibleAssets,
+                            @JsonProperty("intangibleAssetsExcludingGoodwill") Long intangibleAssetsExcludingGoodwill,
+                            @JsonProperty("goodwill") Long goodwill,
+                            @JsonProperty("investments") Long investments,
+                            @JsonProperty("longTermInvestments") Long longTermInvestments,
+                            @JsonProperty("shortTermInvestments") Long shortTermInvestments,
+                            @JsonProperty("otherCurrentAssets") Long otherCurrentAssets,
+                            @JsonProperty("otherNonCurrentAssets") Long otherNonCurrentAssets,
+                            @JsonProperty("totalLiabilities") Long totalLiabilities,
+                            @JsonProperty("totalCurrentLiabilities") Long totalCurrentLiabilities,
+                            @JsonProperty("currentAccountsPayable") Long currentAccountsPayable,
+                            @JsonProperty("deferredRevenue") Long deferredRevenue,
+                            @JsonProperty("currentDebt") Long currentDebt,
+                            @JsonProperty("shortTermDebt") Long shortTermDebt,
+                            @JsonProperty("totalNonCurrentLiabilities") Long totalNonCurrentLiabilities,
+                            @JsonProperty("capitalLeaseObligations") Long capitalLeaseObligations,
+                            @JsonProperty("longTermDebt") Long longTermDebt,
+                            @JsonProperty("currentLongTermDebt") Long currentLongTermDebt,
+                            @JsonProperty("longTermDebtNonCurrent") Long longTermDebtNonCurrent,
+                            @JsonProperty("shortLongTermDebtTotal") Long shortLongTermDebtTotal,
+                            @JsonProperty("otherCurrentLiabilities") Long otherCurrentLiabilities,
+                            @JsonProperty("otherNonCurrentLiabilities") Long otherNonCurrentLiabilities,
+                            @JsonProperty("totalShareholderEquity") Long totalShareholderEquity,
+                            @JsonProperty("treasuryStock") Long treasuryStock,
+                            @JsonProperty("retainedEarnings") Long retainedEarnings,
+                            @JsonProperty("commonStock") Long commonStock,
+                            @JsonProperty("commonStockSharesOutstanding") Long commonStockSharesOutstanding) {
+                this.id = ticker + "BS" + fiscalDateEnding + type;
+                this.ticker = ticker;
+                this.type = type;
+                this.fiscalDateEnding = fiscalDateEnding;
+                this.reportedCurrency = reportedCurrency;
+                this.totalAssets = totalAssets;
+                this.totalCurrentAssets = totalCurrentAssets;
+                this.cashAndCashEquivalentsAtCarryingValue = cashAndCashEquivalentsAtCarryingValue;
+                this.cashAndShortTermInvestments = cashAndShortTermInvestments;
+                this.inventory = inventory;
+                this.currentNetReceivables = currentNetReceivables;
+                this.totalNonCurrentAssets = totalNonCurrentAssets;
+                this.propertyPlantEquipment = propertyPlantEquipment;
+                this.accumulatedDepreciationAmortizationPPE = accumulatedDepreciationAmortizationPPE;
+                this.intangibleAssets = intangibleAssets;
+                this.intangibleAssetsExcludingGoodwill = intangibleAssetsExcludingGoodwill;
+                this.goodwill = goodwill;
+                this.investments = investments;
+                this.longTermInvestments = longTermInvestments;
+                this.shortTermInvestments = shortTermInvestments;
+                this.otherCurrentAssets = otherCurrentAssets;
+                this.otherNonCurrentAssets = otherNonCurrentAssets;
+                this.totalLiabilities = totalLiabilities;
+                this.totalCurrentLiabilities = totalCurrentLiabilities;
+                this.currentAccountsPayable = currentAccountsPayable;
+                this.deferredRevenue = deferredRevenue;
+                this.currentDebt = currentDebt;
+                this.shortTermDebt = shortTermDebt;
+                this.totalNonCurrentLiabilities = totalNonCurrentLiabilities;
+                this.capitalLeaseObligations = capitalLeaseObligations;
+                this.longTermDebt = longTermDebt;
+                this.currentLongTermDebt = currentLongTermDebt;
+                this.longTermDebtNonCurrent = longTermDebtNonCurrent;
+                this.shortLongTermDebtTotal = shortLongTermDebtTotal;
+                this.otherCurrentLiabilities = otherCurrentLiabilities;
+                this.otherNonCurrentLiabilities = otherNonCurrentLiabilities;
+                this.totalShareholderEquity = totalShareholderEquity;
+                this.treasuryStock = treasuryStock;
+                this.retainedEarnings = retainedEarnings;
+                this.commonStock = commonStock;
+                this.commonStockSharesOutstanding = commonStockSharesOutstanding;
+        }
 }

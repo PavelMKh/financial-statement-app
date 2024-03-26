@@ -19,6 +19,7 @@ public class IncomeStatementDaoImpl implements IncomeStatementDao {
     public IncomeStatementDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     @Override
     public List<IncomeStatement> getPnl(String ticker) {
         String getPnlQuery = "select * from income_statement " +

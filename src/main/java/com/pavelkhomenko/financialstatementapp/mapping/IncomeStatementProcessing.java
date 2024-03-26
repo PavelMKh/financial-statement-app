@@ -31,9 +31,11 @@ public class IncomeStatementProcessing {
         JsonNode quarterlyReportsJson = incomeStatementsJson.get("quarterlyReports");
         JsonNode annualReportsJson = incomeStatementsJson.get("annualReports");
         List<IncomeStatement> quarterlyReports = StreamSupport.stream(quarterlyReportsJson.spliterator(), true)
+                .parallel()
                 .map(report -> buildIncomeStatementFromJson(report, ticker, "quarter"))
                 .collect(Collectors.toList());
         List<IncomeStatement> annualReports = StreamSupport.stream(annualReportsJson.spliterator(), true)
+                .parallel()
                 .map(report -> buildIncomeStatementFromJson(report, ticker, "annual"))
                 .collect(Collectors.toList());
         List<IncomeStatement> combinedReports = new ArrayList<>();
