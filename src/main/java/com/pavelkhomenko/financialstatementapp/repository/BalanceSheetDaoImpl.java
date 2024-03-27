@@ -68,7 +68,7 @@ public class BalanceSheetDaoImpl implements BalanceSheetDao {
                 "commonstock, " +
                 "commonstocksharesoutstanding) " +
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
-                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.batchUpdate(saveBsQuery,
                 balanceSheet,
                 100,
@@ -151,7 +151,7 @@ public class BalanceSheetDaoImpl implements BalanceSheetDao {
                 .capitalLeaseObligations(rs.getLong("capitalleaseobligations"))
                 .longTermDebt(rs.getLong("longtermdebt"))
                 .currentLongTermDebt(rs.getLong("currentlongtermdebt"))
-                .longTermDebtNonCurrent(rs.getLong("longterndebtnoncurrent"))
+                .longTermDebtNonCurrent(rs.getLong("longtermdebtnoncurrent"))
                 .shortLongTermDebtTotal(rs.getLong("shortlongtermdettotal"))
                 .otherCurrentLiabilities(rs.getLong("othercurrentliabilities"))
                 .otherNonCurrentLiabilities(rs.getLong("othernoncurrentliabilities"))

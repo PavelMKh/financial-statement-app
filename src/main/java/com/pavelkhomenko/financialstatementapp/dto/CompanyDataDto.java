@@ -5,15 +5,19 @@ import com.pavelkhomenko.financialstatementapp.entity.CashFlow;
 import com.pavelkhomenko.financialstatementapp.entity.Company;
 import com.pavelkhomenko.financialstatementapp.entity.IncomeStatement;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CompanyDataDto {
     private Company company;
-    private BalanceSheet balanceSheet;
-    private IncomeStatement incomeStatement;
-    private CashFlow cashFlow;
+    private List<BalanceSheet> balanceSheet;
+    private List<IncomeStatement> incomeStatement;
+    private List<CashFlow> cashFlow;
 }

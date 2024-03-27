@@ -1,6 +1,7 @@
 package com.pavelkhomenko.financialstatementapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.pavelkhomenko.financialstatementapp.entity.BalanceSheet;
 import com.pavelkhomenko.financialstatementapp.entity.Company;
 import com.pavelkhomenko.financialstatementapp.entity.IncomeStatement;
 import com.pavelkhomenko.financialstatementapp.service.CompanyDataService;
@@ -32,5 +33,12 @@ public class CompanyDataController {
                                                     @RequestParam(name = "apikey") @NonNull String apiKey)
         throws JsonProcessingException {
         return companyDataService.getIncomeStatement(ticker, apiKey);
+    }
+
+    @GetMapping("/{ticker}/bs")
+    public List<BalanceSheet> getBalanceSheet(@PathVariable @NonNull String ticker,
+                                              @RequestParam(name = "apikey") @NonNull String apiKey)
+            throws JsonProcessingException {
+        return companyDataService.getBalanceSheet(ticker, apiKey);
     }
 }

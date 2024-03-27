@@ -21,6 +21,13 @@ The method allows you to obtain an income statement. First, the request is sent 
 GET /{ticker}/pnl
 ```  
 Request parameters: same as paragraph 1
+
+## 3. Getting balance sheet 
+The method allows you to obtain an balance sheet
+```java
+GET /{ticker}/bs
+```  
+Request parameters: same as paragraph 1
   
 # Technology stack
 - Java 17  

@@ -1,8 +1,9 @@
 package com.pavelkhomenko.financialstatementapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.pavelkhomenko.financialstatementapp.util.CustomLongDeserializer;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -30,203 +31,193 @@ public class BalanceSheet {
         private String ticker;
 
         @Column(name = "fiscaldateending")
+        @JsonProperty("fiscalDateEnding")
         private LocalDate fiscalDateEnding;
 
         @Column(name = "type")
         private String type;
 
         @Column(name = "reportedcurrency")
+        @JsonProperty("reportedCurrency")
         private String reportedCurrency;
 
         @Column(name = "totalassets")
+        @JsonProperty("totalAssets")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long totalAssets;
 
         @Column(name = "totalcurrentassets")
+        @JsonProperty("totalCurrentAssets")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long totalCurrentAssets;
 
         @Column(name = "cashandcashequivalentsatcarryingvalue")
+        @JsonProperty("cashAndCashEquivalentsAtCarryingValue")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long cashAndCashEquivalentsAtCarryingValue;
 
         @Column(name = "cashandshortterminvestments")
+        @JsonProperty("cashAndShortTermInvestments")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long cashAndShortTermInvestments;
 
         @Column(name = "inventory")
+        @JsonProperty("inventory")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long inventory;
 
         @Column(name = "currentnetreceivables")
+        @JsonProperty("currentNetReceivables")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long currentNetReceivables;
 
         @Column(name = "totalnoncurrentassets")
+        @JsonProperty("totalNonCurrentAssets")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long totalNonCurrentAssets;
 
         @Column(name = "propertyplantequipment")
+        @JsonProperty("propertyPlantEquipment")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long propertyPlantEquipment;
 
         @Column(name = "accumulateddepreciationamortizationppe")
+        @JsonProperty("accumulatedDepreciationAmortizationPPE")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long accumulatedDepreciationAmortizationPPE;
 
         @Column(name = "intangibleassets")
+        @JsonProperty("intangibleAssets")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long intangibleAssets;
 
         @Column(name = "intangibleassetsexcludinggoodwill")
+        @JsonProperty("intangibleAssetsExcludingGoodwill")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long intangibleAssetsExcludingGoodwill;
 
         @Column(name = "goodwill")
+        @JsonProperty("goodwill")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long goodwill;
 
         @Column(name = "investments")
+        @JsonProperty("investments")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long investments;
 
         @Column(name = "longterminvestments")
+        @JsonProperty("longTermInvestments")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long longTermInvestments;
 
         @Column(name = "shortterminvestments")
+        @JsonProperty("shortTermInvestments")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long shortTermInvestments;
 
         @Column(name = "othercurrentassets")
+        @JsonProperty("otherCurrentAssets")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long otherCurrentAssets;
 
         @Column(name = "othernoncurrentassets")
+        @JsonProperty("otherNonCurrentAssets")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long otherNonCurrentAssets;
 
         @Column(name = "totalliabilities")
+        @JsonProperty("totalLiabilities")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long totalLiabilities;
 
         @Column(name = "totalcurrentliabilities")
+        @JsonProperty("totalCurrentLiabilities")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long totalCurrentLiabilities;
 
         @Column(name = "currentaccountspayable")
+        @JsonProperty("currentAccountsPayable")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long currentAccountsPayable;
 
         @Column(name = "deferredrevenue")
+        @JsonProperty("deferredRevenue")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long deferredRevenue;
 
         @Column(name = "currentdebt")
+        @JsonProperty("currentDebt")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long currentDebt;
 
         @Column(name = "shorttermdebt")
+        @JsonProperty("shortTermDebt")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long shortTermDebt;
 
         @Column(name = "totalnoncurrentliabilities")
+        @JsonProperty("totalNonCurrentLiabilities")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long totalNonCurrentLiabilities;
 
         @Column(name = "capitalleaseobligations")
+        @JsonProperty("capitalLeaseObligations")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long capitalLeaseObligations;
 
         @Column(name = "longtermdebt")
+        @JsonProperty("longTermDebt")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long longTermDebt;
 
         @Column(name = "currentlongtermdebt")
+        @JsonProperty("currentLongTermDebt")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long currentLongTermDebt;
 
         @Column(name = "longtermdebtnoncurrent")
+        @JsonProperty("longTermDebtNoncurrent")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long longTermDebtNonCurrent;
 
         @Column(name = "shortlongtermdettotal")
+        @JsonProperty("shortLongTermDebtTotal")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long shortLongTermDebtTotal;
 
         @Column(name = "othercurrentliabilities")
+        @JsonProperty("otherCurrentLiabilities")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long otherCurrentLiabilities;
 
         @Column(name = "othernoncurrentliabilities")
+        @JsonProperty("otherNonCurrentLiabilities")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long otherNonCurrentLiabilities;
 
         @Column(name = "totalshareholderequity")
+        @JsonProperty("totalShareholderEquity")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long totalShareholderEquity;
 
         @Column(name = "treasurystock")
+        @JsonProperty("treasuryStock")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long treasuryStock;
 
         @Column(name = "retainedearnings")
+        @JsonProperty("retainedEarnings")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long retainedEarnings;
 
         @Column(name = "commonstock")
+        @JsonProperty("commonStock")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long commonStock;
 
         @Column(name = "commonstocksharesoutstanding")
+        @JsonProperty("commonStockSharesOutstanding")
+        @JsonDeserialize(using = CustomLongDeserializer.class)
         private Long commonStockSharesOutstanding;
-
-        @JsonCreator
-        public BalanceSheet(String ticker,
-                            String type,
-                            @JsonProperty("fiscalDateEnding") LocalDate fiscalDateEnding,
-                            @JsonProperty("reportedCurrency") String reportedCurrency,
-                            @JsonProperty("totalAssets") Long totalAssets,
-                            @JsonProperty("totalCurrentAssets") Long totalCurrentAssets,
-                            @JsonProperty("cashAndCashEquivalentsAtCarryingValue") Long cashAndCashEquivalentsAtCarryingValue,
-                            @JsonProperty("cashAndShortTermInvestments") Long cashAndShortTermInvestments,
-                            @JsonProperty("inventory") Long inventory,
-                            @JsonProperty("currentNetReceivables") Long currentNetReceivables,
-                            @JsonProperty("totalNonCurrentAssets") Long totalNonCurrentAssets,
-                            @JsonProperty("propertyPlantEquipment") Long propertyPlantEquipment,
-                            @JsonProperty("accumulatedDepreciationAmortizationPPE") Long accumulatedDepreciationAmortizationPPE,
-                            @JsonProperty("intangibleAssets") Long intangibleAssets,
-                            @JsonProperty("intangibleAssetsExcludingGoodwill") Long intangibleAssetsExcludingGoodwill,
-                            @JsonProperty("goodwill") Long goodwill,
-                            @JsonProperty("investments") Long investments,
-                            @JsonProperty("longTermInvestments") Long longTermInvestments,
-                            @JsonProperty("shortTermInvestments") Long shortTermInvestments,
-                            @JsonProperty("otherCurrentAssets") Long otherCurrentAssets,
-                            @JsonProperty("otherNonCurrentAssets") Long otherNonCurrentAssets,
-                            @JsonProperty("totalLiabilities") Long totalLiabilities,
-                            @JsonProperty("totalCurrentLiabilities") Long totalCurrentLiabilities,
-                            @JsonProperty("currentAccountsPayable") Long currentAccountsPayable,
-                            @JsonProperty("deferredRevenue") Long deferredRevenue,
-                            @JsonProperty("currentDebt") Long currentDebt,
-                            @JsonProperty("shortTermDebt") Long shortTermDebt,
-                            @JsonProperty("totalNonCurrentLiabilities") Long totalNonCurrentLiabilities,
-                            @JsonProperty("capitalLeaseObligations") Long capitalLeaseObligations,
-                            @JsonProperty("longTermDebt") Long longTermDebt,
-                            @JsonProperty("currentLongTermDebt") Long currentLongTermDebt,
-                            @JsonProperty("longTermDebtNonCurrent") Long longTermDebtNonCurrent,
-                            @JsonProperty("shortLongTermDebtTotal") Long shortLongTermDebtTotal,
-                            @JsonProperty("otherCurrentLiabilities") Long otherCurrentLiabilities,
-                            @JsonProperty("otherNonCurrentLiabilities") Long otherNonCurrentLiabilities,
-                            @JsonProperty("totalShareholderEquity") Long totalShareholderEquity,
-                            @JsonProperty("treasuryStock") Long treasuryStock,
-                            @JsonProperty("retainedEarnings") Long retainedEarnings,
-                            @JsonProperty("commonStock") Long commonStock,
-                            @JsonProperty("commonStockSharesOutstanding") Long commonStockSharesOutstanding) {
-                this.id = ticker + "BS" + fiscalDateEnding + type;
-                this.ticker = ticker;
-                this.type = type;
-                this.fiscalDateEnding = fiscalDateEnding;
-                this.reportedCurrency = reportedCurrency;
-                this.totalAssets = totalAssets;
-                this.totalCurrentAssets = totalCurrentAssets;
-                this.cashAndCashEquivalentsAtCarryingValue = cashAndCashEquivalentsAtCarryingValue;
-                this.cashAndShortTermInvestments = cashAndShortTermInvestments;
-                this.inventory = inventory;
-                this.currentNetReceivables = currentNetReceivables;
-                this.totalNonCurrentAssets = totalNonCurrentAssets;
-                this.propertyPlantEquipment = propertyPlantEquipment;
-                this.accumulatedDepreciationAmortizationPPE = accumulatedDepreciationAmortizationPPE;
-                this.intangibleAssets = intangibleAssets;
-                this.intangibleAssetsExcludingGoodwill = intangibleAssetsExcludingGoodwill;
-                this.goodwill = goodwill;
-                this.investments = investments;
-                this.longTermInvestments = longTermInvestments;
-                this.shortTermInvestments = shortTermInvestments;
-                this.otherCurrentAssets = otherCurrentAssets;
-                this.otherNonCurrentAssets = otherNonCurrentAssets;
-                this.totalLiabilities = totalLiabilities;
-                this.totalCurrentLiabilities = totalCurrentLiabilities;
-                this.currentAccountsPayable = currentAccountsPayable;
-                this.deferredRevenue = deferredRevenue;
-                this.currentDebt = currentDebt;
-                this.shortTermDebt = shortTermDebt;
-                this.totalNonCurrentLiabilities = totalNonCurrentLiabilities;
-                this.capitalLeaseObligations = capitalLeaseObligations;
-                this.longTermDebt = longTermDebt;
-                this.currentLongTermDebt = currentLongTermDebt;
-                this.longTermDebtNonCurrent = longTermDebtNonCurrent;
-                this.shortLongTermDebtTotal = shortLongTermDebtTotal;
-                this.otherCurrentLiabilities = otherCurrentLiabilities;
-                this.otherNonCurrentLiabilities = otherNonCurrentLiabilities;
-                this.totalShareholderEquity = totalShareholderEquity;
-                this.treasuryStock = treasuryStock;
-                this.retainedEarnings = retainedEarnings;
-                this.commonStock = commonStock;
-                this.commonStockSharesOutstanding = commonStockSharesOutstanding;
-        }
 }

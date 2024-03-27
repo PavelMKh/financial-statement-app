@@ -1,12 +1,10 @@
 package com.pavelkhomenko.financialstatementapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pavelkhomenko.financialstatementapp.entity.BalanceSheet;
 import com.pavelkhomenko.financialstatementapp.entity.Company;
 import com.pavelkhomenko.financialstatementapp.entity.IncomeStatement;
-import com.pavelkhomenko.financialstatementapp.repository.CompanyOverviewDao;
-import com.pavelkhomenko.financialstatementapp.repository.CompanyOverviewDaoImpl;
-import com.pavelkhomenko.financialstatementapp.repository.IncomeStatementDao;
-import com.pavelkhomenko.financialstatementapp.repository.IncomeStatementDaoImpl;
+import com.pavelkhomenko.financialstatementapp.repository.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
@@ -35,6 +33,7 @@ public class RepositoryTest {
     public static IncomeStatementDao incomeStatementDao;
     public static CompanyOverviewDao companyOverviewDao;
     public static Company testCompany;
+    public static BalanceSheetDao balanceSheetDao;
 
     @BeforeAll
     public static void createJdbcTemplate() throws IOException {
@@ -43,16 +42,17 @@ public class RepositoryTest {
                 .build();
         jdbcTemplate = new JdbcTemplate(dataSource);
         incomeStatementDao = new IncomeStatementDaoImpl(jdbcTemplate);
+        balanceSheetDao = new BalanceSheetDaoImpl(jdbcTemplate);
         companyOverviewDao = new CompanyOverviewDaoImpl(jdbcTemplate);
         testCompany = objectMapper.readValue(
                 new String(Files.readAllBytes(Paths.get("src/test/resources/overview.json"))),
                 Company.class);
         companyOverviewDao.saveCompanyOverview(testCompany);
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     @Test
     public void getPnlTest() throws IOException {
-        objectMapper.registerModule(new JavaTimeModule());
         IncomeStatement testPnl = objectMapper.readValue(
                 new String(Files.readAllBytes(Paths.get("src/test/resources/pnl.json"))),
         IncomeStatement.class);
@@ -61,6 +61,18 @@ public class RepositoryTest {
         incomeStatementDao.savePnl(testPnlList);
         List<IncomeStatement> testPnlDb = incomeStatementDao.getPnl("AAPL");
         assertEquals(testPnlList, testPnlDb);
+    }
+
+    @Test
+    public void getBsTest() throws IOException {
+        BalanceSheet testBs = objectMapper.readValue(
+                new String(Files.readAllBytes(Paths.get("src/test/resources/bs.json"))),
+                BalanceSheet.class);
+        testBs.setId("AAPL2023-09-30");
+        List<BalanceSheet> testBsList = Collections.singletonList(testBs);
+        balanceSheetDao.saveBalanceSheet(testBsList);
+        List<BalanceSheet> testBsDb = balanceSheetDao.getBalanceSheet("AAPL");
+        assertEquals(testBsList, testBsDb);
     }
 
     @Test
