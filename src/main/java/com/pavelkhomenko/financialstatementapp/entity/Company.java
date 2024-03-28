@@ -1,5 +1,6 @@
 package com.pavelkhomenko.financialstatementapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,15 +20,21 @@ public class Company {
     @Id
     private String ticker;
     @Column(name = "name")
+    @JsonProperty("Name")
     private String companyName;
     @Column(name = "description")
+    @JsonProperty("Description")
     private String description;
     @Column(name = "country")
+    @JsonProperty("Country")
     private String country;
     @Column(name = "sector")
+    @JsonProperty("Sector")
     private String sector;
     @Column(name = "industry")
+    @JsonProperty("Industry")
     private String industry;
     @Column(name = "address")
+    @JsonProperty("Address")
     private String adress;
 }

@@ -10,35 +10,41 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Component
 public class BalanceSheetProcessing {
     private final HttpRequestClient httpRequestClient;
+    private final ObjectMapper objectMapper;
 
     @Autowired
     public BalanceSheetProcessing(HttpRequestClient httpRequestClient) {
         this.httpRequestClient = httpRequestClient;
+        this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     }
 
     public List<BalanceSheet> getBsList(String ticker, String apiKey) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        JsonNode bsJson = objectMapper
-                .readTree(getBsJson(ticker, apiKey));
-        JsonNode quarterlyReportsJson = bsJson.get("quarterlyReports");
-        JsonNode annualReportsJson = bsJson.get("annualReports");
-        List<BalanceSheet> quarterlyReports = StreamSupport.stream(quarterlyReportsJson.spliterator(), true)
+        String bsJson = getBsJson(ticker, apiKey);
+        return Stream.of(
+                processReport(objectMapper.readTree(bsJson).get("quarterlyReports"), ticker, "quarter"),
+                processReport(objectMapper.readTree(bsJson).get("annualReports"), ticker, "annual"))
                 .parallel()
-                .map(report -> {
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+    }
+
+    private List<BalanceSheet> processReport(JsonNode report, String ticker, String type) {
+        return StreamSupport.stream(report.spliterator(), true)
+                .parallel()
+                .map(bsReport -> {
                     BalanceSheet bs;
                     try {
-                        bs = objectMapper.treeToValue(report, BalanceSheet.class);
-                        bs.setType("quarter");
-                        bs.setId(ticker + "BS" + bs.getFiscalDateEnding() + "quarter");
+                        bs = objectMapper.treeToValue(bsReport, BalanceSheet.class);
+                        bs.setType(type);
+                        bs.setId(ticker + "BS" + bs.getFiscalDateEnding() + type);
                         bs.setTicker(ticker);
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
@@ -46,25 +52,6 @@ public class BalanceSheetProcessing {
                     return bs;
                 })
                 .collect(Collectors.toList());
-        List<BalanceSheet> annualReports = StreamSupport.stream(annualReportsJson.spliterator(), true)
-                .parallel()
-                .map(report -> {
-                    BalanceSheet bs;
-                    try {
-                        bs = objectMapper.treeToValue(report, BalanceSheet.class);
-                        bs.setType("annual");
-                        bs.setId(ticker + "BS" + bs.getFiscalDateEnding() + "annual");
-                        bs.setTicker(ticker);
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return bs;
-                })
-                .collect(Collectors.toList());
-        List<BalanceSheet> combinedReports = new ArrayList<>();
-        combinedReports.addAll(annualReports);
-        combinedReports.addAll(quarterlyReports);
-        return combinedReports;
     }
 
     private String getBsJson(String ticker, String apiKey) {

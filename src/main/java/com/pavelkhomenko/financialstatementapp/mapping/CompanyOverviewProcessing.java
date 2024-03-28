@@ -14,21 +14,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CompanyOverviewProcessing {
     private final HttpRequestClient client;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public Company getOverview(String ticker, String apiKey)
             throws JsonProcessingException{
-        ObjectMapper objectMapper = new ObjectMapper();
         JsonNode companyJson = objectMapper.readTree(getOverviewJson(ticker,
                 apiKey));
-        return Company.builder()
-                .ticker(ticker)
-                .companyName(companyJson.get("Name").asText())
-                .adress(companyJson.get("Address").asText())
-                .country(companyJson.get("Country").asText())
-                .description(companyJson.get("Description").asText())
-                .sector(companyJson.get("Sector").asText())
-                .industry(companyJson.get("Industry").asText())
-                .build();
+        return objectMapper.treeToValue(companyJson, Company.class);
     }
 
     private String getOverviewJson(String ticker, String apiKey) {

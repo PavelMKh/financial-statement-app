@@ -3,45 +3,56 @@ package com.pavelkhomenko.financialstatementapp.mapping;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pavelkhomenko.financialstatementapp.entity.IncomeStatement;
 import com.pavelkhomenko.financialstatementapp.util.HttpRequestClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Component
 public class IncomeStatementProcessing {
     private final HttpRequestClient httpRequestClient;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public IncomeStatementProcessing(HttpRequestClient httpRequestClient) {
+    public IncomeStatementProcessing(HttpRequestClient httpRequestClient, ObjectMapper objectMapper) {
         this.httpRequestClient = httpRequestClient;
+        this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());;
     }
 
     public List<IncomeStatement> getPnlList(String ticker, String apiKey) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode incomeStatementsJson = objectMapper
-                .readTree(getIncomeStatementJson(ticker, apiKey));
-        JsonNode quarterlyReportsJson = incomeStatementsJson.get("quarterlyReports");
-        JsonNode annualReportsJson = incomeStatementsJson.get("annualReports");
-        List<IncomeStatement> quarterlyReports = StreamSupport.stream(quarterlyReportsJson.spliterator(), true)
+        String pnlJson = getIncomeStatementJson(ticker, apiKey);
+        return Stream.of(
+                processReport(objectMapper.readTree(pnlJson).get("quarterlyReports"), ticker, "quarter"),
+                processReport(objectMapper.readTree(pnlJson).get("annualReports"), ticker, "annual")
+                )
                 .parallel()
-                .map(report -> buildIncomeStatementFromJson(report, ticker, "quarter"))
+                .flatMap(List::stream)
                 .collect(Collectors.toList());
-        List<IncomeStatement> annualReports = StreamSupport.stream(annualReportsJson.spliterator(), true)
+    }
+
+    private List<IncomeStatement> processReport(JsonNode report, String ticker, String type) {
+        return StreamSupport.stream(report.spliterator(), true)
                 .parallel()
-                .map(report -> buildIncomeStatementFromJson(report, ticker, "annual"))
+                .map(pnlReport -> {
+                    IncomeStatement pnl;
+                    try {
+                        pnl = objectMapper.treeToValue(pnlReport, IncomeStatement.class);
+                        pnl.setType(type);
+                        pnl.setId(ticker + "PNL" + pnl.getFiscalDateEnding() + type);
+                        pnl.setTicker(ticker);
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return pnl;
+                })
                 .collect(Collectors.toList());
-        List<IncomeStatement> combinedReports = new ArrayList<>();
-        combinedReports.addAll(annualReports);
-        combinedReports.addAll(quarterlyReports);
-        return combinedReports;
     }
 
     private String getIncomeStatementJson(String ticker, String apiKey) {
@@ -49,46 +60,5 @@ public class IncomeStatementProcessing {
                 "https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol=" +
                         ticker + "&apikey="+apiKey);
         return httpRequestClient.getResponseBody(uri);
-    }
-
-    private IncomeStatement buildIncomeStatementFromJson(JsonNode jsonNode, String ticker, String type) {
-        return new IncomeStatement().builder()
-                .id(ticker + "PNL" + jsonNode.get("fiscalDateEnding").asText() + type)
-                .ticker(ticker)
-                .type(type)
-                .fiscalDateEnding(LocalDate.parse(jsonNode.get("fiscalDateEnding").asText()))
-                .reportedCurrency(jsonNode.get("reportedCurrency").asText())
-                .grossProfit(parseLongValue(jsonNode, "grossProfit"))
-                .totalRevenue(parseLongValue(jsonNode, "totalRevenue"))
-                .costOfRevenue(parseLongValue(jsonNode, "costOfRevenue"))
-                .costofGoodsAndServicesSold(parseLongValue(jsonNode, "costofGoodsAndServicesSold"))
-                .operatingIncome(parseLongValue(jsonNode, "operatingIncome"))
-                .sellingGeneralAndAdministrative(parseLongValue(jsonNode, "sellingGeneralAndAdministrative"))
-                .researchAndDevelopment(parseLongValue(jsonNode, "researchAndDevelopment"))
-                .operatingExpenses(parseLongValue(jsonNode, "operatingExpenses"))
-                .investmentIncomeNet(parseLongValue(jsonNode, "investmentIncomeNet"))
-                .netInterestIncome(parseLongValue(jsonNode, "netInterestIncome"))
-                .interestIncome(parseLongValue(jsonNode, "interestIncome"))
-                .interestExpense(parseLongValue(jsonNode, "interestExpense"))
-                .nonInterestIncome(parseLongValue(jsonNode, "nonInterestIncome"))
-                .otherNonOperatingIncome(parseLongValue(jsonNode, "otherNonOperatingIncome"))
-                .depreciation(parseLongValue(jsonNode, "depreciation"))
-                .depreciationAndAmortization(parseLongValue(jsonNode, "depreciationAndAmortization"))
-                .incomeBeforeTax(parseLongValue(jsonNode, "incomeBeforeTax"))
-                .incomeTaxExpense(parseLongValue(jsonNode, "incomeTaxExpense"))
-                .interestAndDebtExpense(parseLongValue(jsonNode, "interestAndDebtExpense"))
-                .netIncomeFromContinuingOperations(parseLongValue(jsonNode, "netIncomeFromContinuingOperations"))
-                .comprehensiveIncomeNetOfTax(parseLongValue(jsonNode, "comprehensiveIncomeNetOfTax"))
-                .ebit(parseLongValue(jsonNode, "ebit"))
-                .ebitda(parseLongValue(jsonNode, "ebitda"))
-                .netIncome(parseLongValue(jsonNode, "netIncome"))
-                .build();
-    }
-
-    /* If in the returned Json one of the reporting indicators is equal to "None",
-    the special value -1 is returned */
-    private Long parseLongValue(JsonNode jsonNode, String fieldName) {
-        String value = jsonNode.get(fieldName).asText();
-        return value.equals("None") ? -1 : Long.valueOf(value);
     }
 }
