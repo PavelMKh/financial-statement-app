@@ -1,5 +1,6 @@
 package com.pavelkhomenko.financialstatementapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,8 +17,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Company {
     @Id
+    @JsonProperty("Symbol")
     private String ticker;
     @Column(name = "name")
     @JsonProperty("Name")
