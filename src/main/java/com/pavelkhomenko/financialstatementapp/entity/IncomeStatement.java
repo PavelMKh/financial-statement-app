@@ -33,11 +33,9 @@ public class IncomeStatement {
     @JsonIgnore
     private String id;
 
-    @JsonProperty("ticker")
     @Column(name = "ticker")
     private String ticker;
 
-    @JsonProperty("type")
     @Column(name = "type")
     private String type;
 

@@ -12,6 +12,7 @@ import com.pavelkhomenko.financialstatementapp.repository.IncomeStatementDao;
 import com.pavelkhomenko.financialstatementapp.mapping.CompanyOverviewProcessing;
 import com.pavelkhomenko.financialstatementapp.mapping.IncomeStatementProcessing;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CompanyDataService {
     private final CompanyOverviewProcessing companyOverviewProcessing;
     private final CompanyOverviewDao companyOverviewDao;
@@ -31,6 +33,7 @@ public class CompanyDataService {
             throws JsonProcessingException {
         Optional<Company> company = companyOverviewDao.getCompanyOverview(ticker);
         if (company.isEmpty()) {
+            log.info("Requesting " + ticker + " overview from AlphaVantage");
             Company companyFromAv = companyOverviewProcessing.getOverview(ticker, apiKey);
             companyOverviewDao.saveCompanyOverview(companyFromAv);
             return companyFromAv;
@@ -41,6 +44,7 @@ public class CompanyDataService {
     public List<IncomeStatement> getIncomeStatement(String ticker, String apiKey) throws JsonProcessingException {
         List<IncomeStatement> incomeStatements = pnlDao.getPnl(ticker);
         if (incomeStatements.isEmpty()) {
+            log.info("Requesting " + ticker + " income statement from AlphaVantage");
             incomeStatements = pnlProcessing.getPnlList(ticker, apiKey);
             pnlDao.savePnl(incomeStatements);
         }
@@ -50,6 +54,7 @@ public class CompanyDataService {
     public List<BalanceSheet> getBalanceSheet(String ticker, String apiKey) throws JsonProcessingException {
         List<BalanceSheet> balanceSheets = bsDao.getBalanceSheet(ticker);
         if (balanceSheets.isEmpty()) {
+            log.info("Requesting " + ticker + " balance sheet from AlphaVantage");
             balanceSheets = bsProcessing.getBsList(ticker, apiKey);
             bsDao.saveBalanceSheet(balanceSheets);
         }
