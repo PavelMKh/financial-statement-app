@@ -4,6 +4,7 @@ import com.pavelkhomenko.financialstatementapp.entity.BalanceSheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,6 +27,7 @@ public class BalanceSheetDaoImpl implements BalanceSheetDao {
     }
 
     @Override
+    @Transactional
     public void saveBalanceSheet(List<BalanceSheet> balanceSheet) {
         String saveBsQuery = "insert into balance_sheet (id, ticker, " +
                 "fiscaldateending, " +
@@ -118,7 +120,7 @@ public class BalanceSheetDaoImpl implements BalanceSheetDao {
     }
 
     private BalanceSheet mapRowToBs (ResultSet rs, int rowNum) throws SQLException {
-        return new BalanceSheet().builder()
+        return BalanceSheet.builder()
                 .id(rs.getString("id"))
                 .ticker(rs.getString("ticker"))
                 .fiscalDateEnding(rs.getDate("fiscaldateending").toLocalDate())

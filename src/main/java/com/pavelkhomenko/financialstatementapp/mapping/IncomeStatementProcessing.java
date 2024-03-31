@@ -21,9 +21,9 @@ public class IncomeStatementProcessing {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public IncomeStatementProcessing(HttpRequestClient httpRequestClient, ObjectMapper objectMapper) {
+    public IncomeStatementProcessing(HttpRequestClient httpRequestClient) {
         this.httpRequestClient = httpRequestClient;
-        this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());;
+        this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     }
 
     public List<IncomeStatement> getPnlList(String ticker, String apiKey) throws JsonProcessingException {

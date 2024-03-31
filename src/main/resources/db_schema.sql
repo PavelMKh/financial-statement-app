@@ -1,11 +1,11 @@
 CREATE TABLE company_overview (
-                                  ticker VARCHAR(10) PRIMARY KEY,
-                                  name VARCHAR(255),
-                                  description VARCHAR,
-                                  country VARCHAR(20),
-                                  sector VARCHAR(50),
-                                  industry VARCHAR(50),
-                                  address VARCHAR(255)
+                                  ticker VARCHAR(10) PRIMARY KEY NOT NULL,
+                                  name VARCHAR(255) NOT NULL,
+                                  description VARCHAR NOT NULL,
+                                  country VARCHAR(20) NOT NULL,
+                                  sector VARCHAR(50) NOT NULL,
+                                  industry VARCHAR(50) NOT NULL,
+                                  address VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE income_statement (
@@ -43,9 +43,9 @@ CREATE TABLE income_statement (
 CREATE TABLE balance_sheet (
                                id VARCHAR(30) PRIMARY KEY NOT NULL ,
                                ticker VARCHAR(10) REFERENCES company_overview(ticker) ON DELETE CASCADE NOT NULL ,
-                               fiscaldateending DATE,
-                               type VARCHAR(10),
-                               reportedcurrency VARCHAR(10),
+                               fiscaldateending DATE NOT NULL,
+                               type VARCHAR(10) NOT NULL,
+                               reportedcurrency VARCHAR(10) NOT NULL,
                                totalassets BIGINT,
                                totalcurrentassets BIGINT,
                                cashandcashequivalentsatcarryingvalue BIGINT,
@@ -87,9 +87,9 @@ CREATE TABLE balance_sheet (
 CREATE TABLE cash_flow (
                            id VARCHAR(30) NOT NULL PRIMARY KEY,
                            ticker VARCHAR(10) REFERENCES company_overview(ticker) ON DELETE CASCADE NOT NULL,
-                           fiscaldateending DATE,
-                           type VARCHAR(10),
-                           reportedcurrency VARCHAR(10),
+                           fiscaldateending DATE NOT NULL,
+                           type VARCHAR(10) NOT NULL,
+                           reportedcurrency VARCHAR(10) NOT NULL,
                            operatingcashflow BIGINT,
                            paymentsforoperatingactivities BIGINT,
                            proceedsfromoperatingactivities BIGINT,

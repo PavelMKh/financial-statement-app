@@ -4,6 +4,8 @@ import com.pavelkhomenko.financialstatementapp.entity.IncomeStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.sql.Date;
 
 import java.sql.PreparedStatement;
@@ -28,6 +30,7 @@ public class IncomeStatementDaoImpl implements IncomeStatementDao {
     }
 
     @Override
+    @Transactional
     public void savePnl(List<IncomeStatement> pnlList) {
         String savePnlQuery = "insert into income_statement(id, ticker, type, " +
                 "fiscaldateending, " +
@@ -95,7 +98,7 @@ public class IncomeStatementDaoImpl implements IncomeStatementDao {
     }
 
     private IncomeStatement mapRowToPnl(ResultSet resultSet, int rowNum) throws SQLException {
-        return new IncomeStatement().builder()
+        return IncomeStatement.builder()
                 .id(resultSet.getString("id"))
                 .ticker(resultSet.getString("ticker"))
                 .type(resultSet.getString("type"))
