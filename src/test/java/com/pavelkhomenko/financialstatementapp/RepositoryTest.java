@@ -2,6 +2,7 @@ package com.pavelkhomenko.financialstatementapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pavelkhomenko.financialstatementapp.entity.BalanceSheet;
+import com.pavelkhomenko.financialstatementapp.entity.CashFlow;
 import com.pavelkhomenko.financialstatementapp.entity.Company;
 import com.pavelkhomenko.financialstatementapp.entity.IncomeStatement;
 import com.pavelkhomenko.financialstatementapp.repository.*;
@@ -34,6 +35,7 @@ public class RepositoryTest {
     public static CompanyOverviewDao companyOverviewDao;
     public static Company testCompany;
     public static BalanceSheetDao balanceSheetDao;
+    public static CashFlowDao cashFlowDao;
 
     @BeforeAll
     public static void createJdbcTemplate() throws IOException {
@@ -43,10 +45,12 @@ public class RepositoryTest {
         jdbcTemplate = new JdbcTemplate(dataSource);
         incomeStatementDao = new IncomeStatementDaoImpl(jdbcTemplate);
         balanceSheetDao = new BalanceSheetDaoImpl(jdbcTemplate);
+        cashFlowDao = new CashFlowDaoImpl(jdbcTemplate);
         companyOverviewDao = new CompanyOverviewDaoImpl(jdbcTemplate);
         testCompany = objectMapper.readValue(
                 new String(Files.readAllBytes(Paths.get("src/test/resources/overview.json"))),
                 Company.class);
+        testCompany.setTicker("AAPL");
         companyOverviewDao.saveCompanyOverview(testCompany);
         objectMapper.registerModule(new JavaTimeModule());
     }
@@ -73,6 +77,18 @@ public class RepositoryTest {
         balanceSheetDao.saveBalanceSheet(testBsList);
         List<BalanceSheet> testBsDb = balanceSheetDao.getBalanceSheet("AAPL");
         assertEquals(testBsList, testBsDb);
+    }
+
+    @Test
+    public void getCfTest() throws IOException {
+        CashFlow testCf = objectMapper.readValue(
+                new String(Files.readAllBytes(Paths.get("src/test/resources/cf.json"))),
+                CashFlow.class);
+        testCf.setId("AAPL2023-09-30");
+        List<CashFlow> testCfList = Collections.singletonList(testCf);
+        cashFlowDao.saveCf(testCfList);
+        List<CashFlow> testCfDb = cashFlowDao.getCf("AAPL");
+        assertEquals(testCfList, testCfDb);
     }
 
     @Test

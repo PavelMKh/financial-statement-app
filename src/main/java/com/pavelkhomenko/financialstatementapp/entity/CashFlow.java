@@ -92,17 +92,17 @@ public class CashFlow {
     private Long profitLoss;
 
     @Column(name = "cashflowfrominvestment")
-    @JsonProperty("cashFlowFromInvestment")
+    @JsonProperty("cashflowFromInvestment")
     @JsonDeserialize(using = CustomLongDeserializer.class)
     private Long cashFlowFromInvestment;
 
     @Column(name = "cashflowfromfinancing")
-    @JsonProperty("cashFlowFromFinancing")
+    @JsonProperty("cashflowFromFinancing")
     @JsonDeserialize(using = CustomLongDeserializer.class)
     private Long cashFlowFromFinancing;
 
     @Column(name = "proceedsfromrepaymentsofshorttermdet")
-    @JsonProperty("proceedsFromRepaymentsOfStd")
+    @JsonProperty("proceedsFromRepaymentsOfShortTermDebt")
     @JsonDeserialize(using = CustomLongDeserializer.class)
     private Long proceedsFromRepaymentsOfStd;
 
@@ -142,7 +142,7 @@ public class CashFlow {
     private Long proceedsFromIssuanceOfCommonStock;
 
     @Column(name = "proceedsfromissuanceoflongtermdetandcapitalsecuritiesnet")
-    @JsonProperty("proceedsFromIssuanceOfLtdAndCsn")
+    @JsonProperty("proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet")
     @JsonDeserialize(using = CustomLongDeserializer.class)
     private Long proceedsFromIssuanceOfLtdAndCsn;
 

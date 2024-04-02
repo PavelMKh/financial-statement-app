@@ -30,7 +30,7 @@ public class CompanyOverviewDaoImpl implements CompanyOverviewDao {
         try {
             company = jdbcTemplate.queryForObject(getCompanyQuery, this::mapRowToCompany, ticker);
         } catch(EmptyResultDataAccessException e) {
-            log.warn("Company " + ticker + " not found in the database");
+            log.info("Company " + ticker + " not found in the database");
             return Optional.empty();
         }
         return Optional.ofNullable(company);
